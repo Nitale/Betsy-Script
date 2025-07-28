@@ -11,6 +11,8 @@ AutoHotkey automation script for Dungeon Defenders 2 multi-account management an
 
 Press `Ctrl+F1` to open the control GUI with visual status indicators.
 
+![image](images/doc/betsy_controls_gui.png)
+
 ### Hotkeys and Functions
 
 **F5 - Press G Loop**

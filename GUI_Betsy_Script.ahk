@@ -15,7 +15,7 @@ ShowMainGui() {
     }
     
     ; Create new GUI
-    g_MainGui := Gui("+AlwaysOnTop", "DD2 Script Controls")
+    g_MainGui := Gui("+AlwaysOnTop", "Betsy Script Controls")
 
     widgetDefs := [
         ["F5", "GLoop", "Press G", "isActiveGLoop"],
