@@ -28,6 +28,9 @@ Press `Ctrl+F1` to open the control GUI with visual status indicators.
 - Rapid right-click at currrent mouse position (useful to open shards, boxes, survival chests...)
 
 **F11 - Mod Reroller**
+
+You should hover your mouse over this area before pressing <strong>F11</strong> : \
+![image](images/doc/token_reroll.png)
 - Automatically reroll mod until 10
 - Stops when "maximum", "achieved", or "OK" detected in center screen region
 - Runs up to a maximum of 287 times before it stops 
