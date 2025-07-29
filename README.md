@@ -7,6 +7,10 @@ AutoHotkey automation script for Dungeon Defenders 2 multi-account management an
 1. Download and install [AutoHotkey v2.0](https://www.autohotkey.com/v2/)
 2. Run `Betsy_Script.ahk`
 
+## Update
+
+If you are unfamiliar with Git, You can run the <strong>update.ps1</strong> with powershell to update your files (internet connection required).
+
 ## Usage
 
 Press `Ctrl+F1` to open the control GUI with visual status indicators.
