@@ -9,44 +9,65 @@ AutoHotkey automation script for Dungeon Defenders 2 multi-account management an
 
 ## Update
 
-If you are unfamiliar with Git, You can run the <strong>update.ps1</strong> with powershell to update your files (internet connection required).
+If you are unfamiliar with Git, You can run the `update.ps1` with powershell to update your files (internet connection required).
 
-## Usage
+## Keys controls
 
 Press `Ctrl+F1` to open the control GUI with visual status indicators.
 
 ![image](images/doc/betsy_controls_gui.png)
 
+### Configuration file
+
+Rename file <strong>config.ini.example</strong> by <strong>config.ini</strong>
+
 ### Hotkeys and Functions
 
-**F5 - Press G Loop**
-- Press G on every dd2 instances every 5 seconds
+## Ctrl + J - Alt Join Main account
 
-**F6 - Give Mana**
-- Set "m" shortcut to give all mana for your alts accounts
-- Set "l" shorcuts to respawn for your alt accounts
+# config.ini
+- Fill <strong>SandboxiePath</strong>, if not specified, will take the default Sandboxie Installation Path.
+- Fill <strong>SteamInvitelink</strong>.
 
-**F7 - Auto Buff**
-- Press g on every windows
-- Uses spell 3 every 5 seconds
+To find your <strong>Steam invite link</strong> :
+1. Run Steam and Dungeon Defenders 2 (you must be in a joinable lobby)
+2. Go to your profile
+3. Copy paste this link : \
+![image](images/doc/steam_link_invit.png)
 
-**F9 - Auto Clicker**
+# Usage
+1. Main account must be in a joignable lobby
+2. Alt account game must be started (can be in menu)
+3. Press `Ctrl + J` so your alt join your lobby
+
+**`F5` - Press G Loop**
+- Press `g` on every dd2 windows every 5 seconds
+
+**`F6` - Give Mana**
+- Bind give all defense mana key to `m` for your alt account
+- Bind respawn key to `l` for your alt account
+
+**`F7` - Auto Buff**
+- Press `g` on every windows
+- Uses spell 3 every 5 seconds on main account window
+
+**`F9` - Auto Clicker**
 - Rapid right-click at currrent mouse position (useful to open shards, boxes, survival chests...)
 
-**F11 - Mod Reroller**
+**`F11` - Mod Reroller**
 
-You should hover your mouse over this area before pressing <strong>F11</strong> : \
+You should hover your mouse over this area before pressing `F11` : \
 ![image](images/doc/token_reroll.png)
 - Automatically reroll mod until 10
 - Stops when "maximum", "achieved", or "OK" detected in center screen region
 - Runs up to a maximum of 287 times before it stops 
 
-**F12 - Exit Script**
-- Immediately terminates the script
+**`F12` - Exit Script**
+- Stop the script
 
 ## Window Detection
 
 Script automatically detects:
-- Main window: "Dungeon Defenders 2" (excluding alt accounts)
-- Alt accounts: Windows titled "[#] Dungeon Defenders 2 [#]"
+- Main window: "Dungeon Defenders 2"
+- Alt account: Windows titled "[#] Dungeon Defenders 2 [#]"
 - All game windows: Any process named "DunDefGame.exe"

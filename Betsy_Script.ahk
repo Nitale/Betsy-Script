@@ -13,7 +13,7 @@ isActiveModReroller := false
 toolTipTimer := 5000
 AllWindows := WinGetList("ahk_exe DunDefGame.exe")
 MainWindow := WinGetList("Dungeon Defenders 2", ,"[#] Dungeon Defenders 2 [#]")
-AltAccountsWindows := WinGetList("[#] Dungeon Defenders 2 [#]")
+AltAccountWindow := WinGetList("[#] Dungeon Defenders 2 [#]")
 
 ; F5 hotkey to toggle the script on/off
 F5::Toggle("GLoop")
@@ -21,6 +21,7 @@ F6::GiveMana()
 F7::Toggle("BuffLoop")
 F9::Toggle("AutoClicker")
 F11::Toggle("ModReroller")
+^j::AltJoinMainAccount()
 
 TogglesDown() {
     global isActiveGLoop, isActiveBuffLoop, isActiveAutoClicker, isActiveModReroller
@@ -88,9 +89,9 @@ Toggle(name) {
 }
 
 UpdateDunDefWindows() {
-    global MainWindow, AltAccountsWindows, AllWindows
+    global MainWindow, AltAccountWindow, AllWindows
     MainWindow := WinGetList("Dungeon Defenders 2", ,"[#] Dungeon Defenders 2 [#]")
-    AltAccountsWindows := WinGetList("[#] Dungeon Defenders 2 [#]")
+    AltAccountWindow := WinGetList("[#] Dungeon Defenders 2 [#]")
     AllWindows := WinGetList("ahk_exe DunDefGame.exe")
 }
 
@@ -104,22 +105,22 @@ MultiAccountActionKey(action, windowsList) {
 }
 
 GiveMana() {
-    global AltAccountsWindows
+    global AltAccountWindow
+    try FlashWidget("GiveMana")
     ToolTip("Giving Mana", 3000)
     SetTimer(() => ToolTip(), -toolTipTimer)
     UpdateDunDefWindows()
-    MultiAccountActionKey("ml", AltAccountsWindows)
-    try FlashGiveManaWidget()
+    MultiAccountActionKey("ml", AltAccountWindow)
 }
 
 SendGLoop() {
-    global MainWindow, AltAccountsWindows, AllWindows
+    global MainWindow, AltAccountWindow, AllWindows
     UpdateDunDefWindows()
     MultiAccountActionKey("g", AllWindows)
 }
 
 SendBuffLoop() {
-    global MainWindow, AltAccountsWindows, AllWindows
+    global MainWindow, AltAccountWindow, AllWindows
     UpdateDunDefWindows()
     MultiAccountActionKey("g", AllWindows)
     MultiAccountActionKey("3", MainWindow)
@@ -157,8 +158,23 @@ ModReroller() {
     }
 }
 
+AltJoinMainAccount() {
+  UpdateDunDefWindows()
+  try FlashWidget("AltJoinMainAccount")
+  ; Default Sandboxie path if not defined in config.ini
+  sandboxiePath := IniRead("config.ini", "Steam", "SandboxiePath") != "" ? IniRead("config.ini", "Steam", "SandboxiePath") : A_ProgramFiles "\Sandboxie-Plus\Start.exe"
+  sandboxieboxes := "/box:Steam_"
+  mainSteam := IniRead("config.ini", "Steam", "SteamInvitelink")
+
+  for index, windowID in AltAccountWindow {
+    if (WinExist("ahk_class Sandbox:Steam_" index ":LaunchUnrealUWindowsClient")) {
+      Run sandboxiePath " " sandboxieboxes index " " mainSteam
+    }
+  }
+}
+
 F12::ExitApp()
 
 #include GUI_Betsy_Script.ahk
-ToolTip("Script loaded !  F5 : Press G | F6 : Give Mana | F7 : Buff | F9 : Clicker | F11 : Mod Reroller | F12 : Exit")
-SetTimer(() => ToolTip(), -5000)
+ToolTip("Betsy Script Loaded !")
+SetTimer(() => ToolTip(), -toolTipTimer)
