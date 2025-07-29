@@ -18,6 +18,7 @@ ShowMainGui() {
     g_MainGui := Gui("+AlwaysOnTop", "Betsy Script Controls")
 
     widgetDefs := [
+        ["Ctrl + J", "AltJoinMainAccount", "Alt Join Main", ""],
         ["F5", "GLoop", "Press G", "isActiveGLoop"],
         ["F6", "GiveMana", "Give Mana", ""],
         ["F7", "BuffLoop", "Auto Buff", "isActiveBuffLoop"],
@@ -76,10 +77,18 @@ UpdateGuiFromHotkey(functionName) {
 }
 
 ; Function to flash Give Mana widget green
-FlashGiveManaWidget() {
+FlashWidget(widgetName) {
     global g_GuiWidgets
-    if (g_GuiWidgets.Has("GiveMana")) {
+    if (widgetName == "GiveMana") {
         widget := g_GuiWidgets["GiveMana"]
+        try {
+            widget.Opt("Background0x00FF00")
+            widget.Opt("c0x000000")
+            SetTimer(() => (widget.Opt("Background0xFF0000"), widget.Opt("c0xFFFFFF")), -3000)
+        }
+    }
+    if (widgetName == "AltJoinMainAccount") {
+        widget := g_GuiWidgets["AltJoinMainAccount"]
         try {
             widget.Opt("Background0x00FF00")
             widget.Opt("c0x000000")
