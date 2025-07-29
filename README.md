@@ -26,7 +26,8 @@ Rename file <strong>config.ini.example</strong> by <strong>config.ini</strong>
 ## Ctrl + J - Alt Join Main account
 
 # config.ini
-- Fill <strong>SandboxiePath</strong>, if not specified, will take the default Sandboxie Installation Path.
+- In Sandboxie, rename your alt box "<Strong>Steam_1</strong>" (Will be displayed "<strong>Steam 1</strong>" in Sandboxie interface)
+- (Optionnal) Fill <strong>SandboxiePath</strong>, if not specified, will take the default Sandboxie Installation Path.
 - Fill <strong>SteamInvitelink</strong>.
 
 To find your <strong>Steam invite link</strong> :
@@ -38,7 +39,13 @@ To find your <strong>Steam invite link</strong> :
 # Usage
 1. Main account must be in a joignable lobby
 2. Alt account game must be started (can be in menu)
-3. Press `Ctrl + J` so your alt join your lobby
+3. Press `Ctrl + J` to make your alt join your lobby
+
+## Ctrl + I - Main account invite alt
+# Usage
+1. Main account must be in a joignable lobby
+2. Only main account and alt in lobby
+3. Press `Ctrl + I` to invite your alt to party
 
 **`F5` - Press G Loop**
 - Press `g` on every dd2 windows every 5 seconds
