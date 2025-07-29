@@ -19,12 +19,13 @@ ShowMainGui() {
 
     widgetDefs := [
         ["Ctrl + J", "AltJoinMainAccount", "Alt Join Main", ""],
+        ["Ctrl + I", "InviteAltParty", "Invite Alt Party", ""],
         ["F5", "GLoop", "Press G", "isActiveGLoop"],
         ["F6", "GiveMana", "Give Mana", ""],
         ["F7", "BuffLoop", "Auto Buff", "isActiveBuffLoop"],
         ["F9", "AutoClicker", "Auto Clicker", "isActiveAutoClicker"],
         ["F11", "ModReroller", "Mod Reroller", "isActiveModReroller"],
-        ["F12", "ExitApp", "Exit Script", ""]
+        ["F12", "Reload", "Reload Script", ""]
     ]
 
     y := 10
@@ -89,6 +90,14 @@ FlashWidget(widgetName) {
     }
     if (widgetName == "AltJoinMainAccount") {
         widget := g_GuiWidgets["AltJoinMainAccount"]
+        try {
+            widget.Opt("Background0x00FF00")
+            widget.Opt("c0x000000")
+            SetTimer(() => (widget.Opt("Background0xFF0000"), widget.Opt("c0xFFFFFF")), -3000)
+        }
+    }
+    if (widgetName == "InviteAltParty") {
+        widget := g_GuiWidgets["InviteAltParty"]
         try {
             widget.Opt("Background0x00FF00")
             widget.Opt("c0x000000")

@@ -1,6 +1,7 @@
 #Requires AutoHotkey v2.0
 #include Lib\OCR.ahk
 #include GUI_Betsy_Script.ahk
+#include Invite_Alt.ahk
 
 OCR.GetAvailableLanguages()
 OCR.LoadLanguage(lang:="FirstFromAvailableLanguages")
@@ -22,6 +23,7 @@ F7::Toggle("BuffLoop")
 F9::Toggle("AutoClicker")
 F11::Toggle("ModReroller")
 ^j::AltJoinMainAccount()
+^i::InviteAlt()
 
 TogglesDown() {
     global isActiveGLoop, isActiveBuffLoop, isActiveAutoClicker, isActiveModReroller
@@ -125,7 +127,7 @@ SendBuffLoop() {
     MultiAccountActionKey("g", AllWindows)
     MultiAccountActionKey("3", MainWindow)
     Sleep(400)
-    ControlClick(, "ahk_id " MainWindow[1], , "Left", , ,)
+    ControlClick("x0 y0", "ahk_id " MainWindow[1], , "Left", , ,)
 }
 
 AutoClicker() {
@@ -173,7 +175,23 @@ AltJoinMainAccount() {
   }
 }
 
-F12::ExitApp()
+InviteAlt() {
+    WinGetPos(&winX, &winY, &winW, &winH, "Dungeon Defenders 2", ,"[#] Dungeon Defenders 2 [#]")
+    SetKeyDelay(50)
+    UpdateDunDefWindows()
+    try FlashWidget("InviteAltParty")
+    ControlSend("{Escape}", , "ahk_id " MainWindow[1])
+    Sleep(500)
+    MouseMove(winX + winW // 2, winY)
+    Loop AltAccountWindow.Length {
+        AltInvit(A_Index)
+    }
+    ControlSend("{Escape}", , "ahk_id " MainWindow[1])
+    Sleep(2000)
+    MultiAccountActionKey("y", AltAccountWindow)
+}
+
+F12::Reload()
 
 #include GUI_Betsy_Script.ahk
 ToolTip("Betsy Script Loaded !")
