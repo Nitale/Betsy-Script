@@ -57,10 +57,16 @@ To find your <strong>Steam invite link</strong> :
 3. Press `Ctrl + J` to make your alt join your lobby
 
 ## Ctrl + I - Main account invite alt
-# Usage
 1. Main account must be in a joignable lobby
 2. Only main account and alt in lobby
 3. Press `Ctrl + I` to invite your alt to party
+
+## Ctrl + U - Sell Bags
+1. Your accounts must not be in inventory
+2. first bag tab for you inventorys accounts
+3. Assuming you have maximum bags, it will sell all in every bags exept first and last bag. If you don't have maximum bags, it sells all bags
+
+Tips : Lock wanted mods, items, use first bag as materials, last bag as shards and put eggs in one of the middle bag.
 
 # Other Keys
 
