@@ -26,6 +26,7 @@ F9::Toggle("AutoClicker")
 F11::Toggle("ModReroller")
 ^j::AltJoinMainAccount()
 ^i::InviteAlt()
+^u::SellBags()
 ; Select dd2 Windows ordered by PID
 >Numpad1::ActivateWindow(1)
 >Numpad2::ActivateWindow(2)
@@ -207,6 +208,18 @@ InviteAlt() {
     ControlSend("{Escape}", , "ahk_id " MainWindow[1])
     Sleep(2000)
     MultiAccountActionKey("y", AltAccountWindow)
+}
+
+SellBags() {
+  MultiAccountActionKey("i", AllWindows)
+  Sleep(300)
+  loop 6 {
+    MultiAccountActionKey("e", AllWindows)
+    MultiAccountActionKey("y", AllWindows)
+    Sleep(4000)
+    MultiAccountActionKey("{enter}", AllWindows)
+  }
+  MultiAccountActionKey("i", AllWindows)
 }
 
 ActivateWindow(windowIndex) {
