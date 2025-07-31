@@ -7,13 +7,24 @@ AutoHotkey automation script for Dungeon Defenders 2 multi-account management an
 1. Download and install [AutoHotkey v2.0](https://www.autohotkey.com/v2/)
 2. Run `Betsy_Script.ahk`
 
+## Rebind a key
+
+Feel Free to rebind keys to whatever you like (at the beginning of `Betsy_Script.ahk` file), some useful keys :
+- `^` is for Ctrl
+- `+` is for Shift
+- `numpad` is for numpad keys
+
+You can bind to multiple keys, example : `^F1` is for CTRL+F1
+
 ## Update
 
 If you are unfamiliar with Git, You can run the `update.ps1` with powershell to update your files (internet connection required).
 
+<strong><span style="color:red"> /!\ </span></strong>It will override your local files if you modified it
+
 ## Keys controls
 
-Press `Ctrl+F1` to open the control GUI with visual status indicators.
+Press `Ctrl+F1` to open the control GUI with visual status indicators (you can rebind at the beginning of `GUI_Betsy_Script.ahk`)
 
 ![image](images/doc/betsy_controls_gui.png)
 
@@ -22,6 +33,10 @@ Press `Ctrl+F1` to open the control GUI with visual status indicators.
 Rename file <strong>config.ini.example</strong> by <strong>config.ini</strong>
 
 ### Hotkeys and Functions
+
+## Numpad1 | Numpad2
+
+Press `numpad1` or `numpad2` to switch DD2 window. First dungeon defenders windows you started will be `numpad1` and the second will be `numpad2`
 
 ## Ctrl + J - Alt Join Main account
 
@@ -47,6 +62,8 @@ To find your <strong>Steam invite link</strong> :
 2. Only main account and alt in lobby
 3. Press `Ctrl + I` to invite your alt to party
 
+# Other Keys
+
 **`F5` - Press G Loop**
 - Press `g` on every dd2 windows every 5 seconds
 
@@ -63,14 +80,16 @@ To find your <strong>Steam invite link</strong> :
 
 **`F11` - Mod Reroller**
 
+<strong><span style="color:red"> /!\ </span></strong>Press F12 if you wan't to stop the Mod Reroller (will reload the script), F11 currently doesn't work
+
 You should hover your mouse over this area before pressing `F11` : \
 ![image](images/doc/token_reroll.png)
 - Automatically reroll mod until 10
 - Stops when "maximum", "achieved", or "OK" detected in center screen region
 - Runs up to a maximum of 287 times before it stops 
 
-**`F12` - Exit Script**
-- Stop the script
+**`F12` - Reload Script**
+- Reload the script
 
 ## Window Detection
 

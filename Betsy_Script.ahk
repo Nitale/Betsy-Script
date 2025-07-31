@@ -2,6 +2,7 @@
 #include Lib\OCR.ahk
 #include GUI_Betsy_Script.ahk
 #include Invite_Alt.ahk
+#include Tools.ahk
 
 OCR.GetAvailableLanguages()
 OCR.LoadLanguage(lang:="FirstFromAvailableLanguages")
@@ -13,6 +14,7 @@ isActiveAutoClicker := false
 isActiveModReroller := false
 toolTipTimer := 5000
 AllWindows := WinGetList("ahk_exe DunDefGame.exe")
+SortWindowsByPID()
 MainWindow := WinGetList("Dungeon Defenders 2", ,"[#] Dungeon Defenders 2 [#]")
 AltAccountWindow := WinGetList("[#] Dungeon Defenders 2 [#]")
 
@@ -24,77 +26,85 @@ F9::Toggle("AutoClicker")
 F11::Toggle("ModReroller")
 ^j::AltJoinMainAccount()
 ^i::InviteAlt()
+; Select dd2 Windows ordered by PID
+>Numpad1::ActivateWindow(1)
+>Numpad2::ActivateWindow(2)
 
 TogglesDown() {
-    global isActiveGLoop, isActiveBuffLoop, isActiveAutoClicker, isActiveModReroller
-    isActiveGLoop := false
-    isActiveBuffLoop := false
-    isActiveAutoClicker := false
-    isActiveModReroller := false
+  global isActiveGLoop, isActiveBuffLoop, isActiveAutoClicker, isActiveModReroller
+  isActiveGLoop := false
+  isActiveBuffLoop := false
+  isActiveAutoClicker := false
+  isActiveModReroller := false
 
-    SetTimer(SendGLoop, 0)
-    SetTimer(SendBuffLoop, 0)
-    SetTimer(AutoClicker, 0)
-    SetTimer(ModReroller, 0)
+  SetTimer(SendGLoop, 0)
+  SetTimer(SendBuffLoop, 0)
+  SetTimer(AutoClicker, 0)
+  SetTimer(ModReroller, 0)
 }
 
 Toggle(name) {
-    global isActiveGLoop, isActiveBuffLoop, isActiveAutoClicker, isActiveModReroller
-    ; Get current state and settings based on name
+  global isActiveGLoop, isActiveBuffLoop, isActiveAutoClicker, isActiveModReroller
+  ; Get current state and settings based on name
+  switch name {
+    case "GLoop":
+      isActive := isActiveGLoop
+      displayName := "Press G"
+      func := SendGLoop
+      interval := toolTipTimer
+    case "BuffLoop":
+      isActive := isActiveBuffLoop
+      displayName := "Auto Buff"
+      func := SendBuffLoop
+      interval := toolTipTimer
+    case "AutoClicker":
+      isActive := isActiveAutoClicker
+      displayName := "Auto Clicker"
+      func := AutoClicker
+      interval := 5
+    case "ModReroller":
+      isActive := isActiveModReroller
+      displayName := "Mod Reroller"
+      func := ModReroller
+      interval := 1000
+  }
+  
+  if (isActive) {
+    if (name = "ModReroller") {
+      ToolTip("Mod Reroller Stopped")
+      SetTimer(func, 0)
+    }
+    TogglesDown()
+    ToolTip(displayName . " OFF - Press " . GetKeyName(A_ThisHotkey) . " to enable")
+    SetTimer(() => ToolTip(), -toolTipTimer)
+  } else {
+    TogglesDown()
+    ; Set the specific variable to true
     switch name {
-        case "GLoop":
-            isActive := isActiveGLoop
-            displayName := "Press G"
-            func := SendGLoop
-            interval := toolTipTimer
-        case "BuffLoop":
-            isActive := isActiveBuffLoop
-            displayName := "Auto Buff"
-            func := SendBuffLoop
-            interval := toolTipTimer
-        case "AutoClicker":
-            isActive := isActiveAutoClicker
-            displayName := "Auto Clicker"
-            func := AutoClicker
-            interval := 5
-        case "ModReroller":
-            isActive := isActiveModReroller
-            displayName := "Mod Reroller"
-            func := ModReroller
-            interval := 1000
+      case "GLoop": isActiveGLoop := true
+      case "BuffLoop": isActiveBuffLoop := true
+      case "AutoClicker": isActiveAutoClicker := true
+      case "ModReroller": isActiveModReroller := true
     }
-    
-    if (isActive) {
-        TogglesDown()
-        ToolTip(displayName . " OFF - Press " . GetKeyName(A_ThisHotkey) . " to enable")
-        SetTimer(() => ToolTip(), -toolTipTimer)
-    } else {
-        TogglesDown()
-        ; Set the specific variable to true
-        switch name {
-            case "GLoop": isActiveGLoop := true
-            case "BuffLoop": isActiveBuffLoop := true
-            case "AutoClicker": isActiveAutoClicker := true
-            case "ModReroller": isActiveModReroller := true
-        }
-        ToolTip(displayName . " ON - Press " . GetKeyName(A_ThisHotkey) . " to disable")
-        SetTimer(() => ToolTip(), -toolTipTimer)
-        func()
-        if (name = "ModReroller") {
-            SetTimer(func, -interval)
-        }
-        else {
-            SetTimer(func, interval)
-        }
+    ToolTip(displayName . " ON - Press " . GetKeyName(A_ThisHotkey) . " to disable")
+    SetTimer(() => ToolTip(), -toolTipTimer)
+    func()
+    if (name = "ModReroller") {
+        SetTimer(func, -interval)
     }
-    try UpdateGuiFromHotkey(name)
+    else {
+        SetTimer(func, interval)
+    }
+  }
+  try UpdateGuiFromHotkey(name)
 }
 
 UpdateDunDefWindows() {
-    global MainWindow, AltAccountWindow, AllWindows
-    MainWindow := WinGetList("Dungeon Defenders 2", ,"[#] Dungeon Defenders 2 [#]")
-    AltAccountWindow := WinGetList("[#] Dungeon Defenders 2 [#]")
-    AllWindows := WinGetList("ahk_exe DunDefGame.exe")
+  global MainWindow, AltAccountWindow, AllWindows
+  MainWindow := WinGetList("Dungeon Defenders 2", ,"[#] Dungeon Defenders 2 [#]")
+  AltAccountWindow := WinGetList("[#] Dungeon Defenders 2 [#]")
+  AllWindows := WinGetList("ahk_exe DunDefGame.exe")
+  SortWindowsByPID()
 }
 
 MultiAccountActionKey(action, windowsList) {
@@ -107,57 +117,65 @@ MultiAccountActionKey(action, windowsList) {
 }
 
 GiveMana() {
-    global AltAccountWindow
-    try FlashWidget("GiveMana")
-    ToolTip("Giving Mana", 3000)
-    SetTimer(() => ToolTip(), -toolTipTimer)
-    UpdateDunDefWindows()
-    MultiAccountActionKey("ml", AltAccountWindow)
+  global AltAccountWindow
+  try FlashWidget("GiveMana")
+  ToolTip("Giving Mana", 3000)
+  SetTimer(() => ToolTip(), -toolTipTimer)
+  UpdateDunDefWindows()
+  MultiAccountActionKey("ml", AltAccountWindow)
 }
 
 SendGLoop() {
-    global MainWindow, AltAccountWindow, AllWindows
-    UpdateDunDefWindows()
-    MultiAccountActionKey("g", AllWindows)
+  global MainWindow, AltAccountWindow, AllWindows
+  UpdateDunDefWindows()
+  MultiAccountActionKey("g", AllWindows)
+  MultiAccountActionKey("y", AllWindows)
 }
 
 SendBuffLoop() {
-    global MainWindow, AltAccountWindow, AllWindows
-    UpdateDunDefWindows()
-    MultiAccountActionKey("g", AllWindows)
-    MultiAccountActionKey("3", MainWindow)
-    Sleep(400)
-    ControlClick("x0 y0", "ahk_id " MainWindow[1], , "Left", , ,)
+  global MainWindow, AltAccountWindow, AllWindows
+  UpdateDunDefWindows()
+  MultiAccountActionKey("g", AllWindows)
+  MultiAccountActionKey("y", AllWindows)
+  MultiAccountActionKey("3", MainWindow)
+  Sleep(400)
+  ControlClick("x0 y0", "ahk_id " MainWindow[1], , "Left", , ,)
 }
 
 AutoClicker() {
-    MouseClick("Right")
+  MouseClick("Right")
 }
 
 ModReroller() {
-    WinGetPos &x, &y, &w, &h, MainWindow[1]
+  global isActiveModReroller
+  WinGetPos &x, &y, &w, &h, MainWindow[1]
 
-    regionW := w // 3
-    regionH := h // 4
-    centerX := x + w // 2
-    centerY := y + h // 2
-    searchX1 := centerX - regionW // 2
-    searchY1 := centerY - regionH // 2
-    searchX2 := searchX1 + regionW - 1
-    searchY2 := searchY1 + regionH - 1
+  regionW := w // 3
+  regionH := h // 4
+  centerX := x + w // 2
+  centerY := y + h // 2
+  searchX1 := centerX - regionW // 2
+  searchY1 := centerY - regionH // 2
+  searchX2 := searchX1 + regionW - 1
+  searchY2 := searchY1 + regionH - 1
 
-    Loop 287 {
-        ControlSend("{Enter}", , MainWindow[1])
-        Sleep(500)
-        result := OCR.FromRect(searchX1, searchY1, regionW, regionH, {grayscale: true, scale: 5.0})
-        ; If mod is 10
-        if RegExMatch(result.Text, "\b(maximum|achieved|OK)\b", &m) {
-            MsgBox "Mod rerolled at 10 !" . result.Text
-            TogglesDown()
-            return
-        }
-        ControlSend("{Enter}", , MainWindow[1])
+  Loop 287 {
+    ControlSend("{Enter}", , MainWindow[1])
+    Sleep(500)
+    if !isActiveModReroller {
+      ToolTip("Mod Reroller Stopped")
+      SetTimer(() => ToolTip(), -toolTipTimer)
+      return
     }
+    result := OCR.FromRect(searchX1, searchY1, regionW, regionH, {grayscale: true, scale: 5.0})
+    ; If mod is 10
+    if RegExMatch(result.Text, "\b(maximum|achieved|OK)\b", &m) {
+      MsgBox "Mod rerolled at 10 !" . result.Text
+      TogglesDown()
+      return
+    }
+    ControlSend("{Enter}", , MainWindow[1])
+  }
 }
 
 AltJoinMainAccount() {
@@ -189,6 +207,13 @@ InviteAlt() {
     ControlSend("{Escape}", , "ahk_id " MainWindow[1])
     Sleep(2000)
     MultiAccountActionKey("y", AltAccountWindow)
+}
+
+ActivateWindow(windowIndex) {
+  global AllWindows
+  UpdateDunDefWindows()
+  if (AllWindows.Has(windowIndex))
+    WinActivate(AllWindows[windowIndex])
 }
 
 F12::Reload()
