@@ -4,6 +4,8 @@
 g_MainGui := ""
 g_GuiWidgets := Map()
 
+^F1::ShowMainGui()
+
 ShowMainGui() {
     global isActiveGLoop, isActiveBuffLoop, isActiveAutoClicker, isActiveModReroller, g_MainGui, g_GuiWidgets
 
@@ -28,15 +30,15 @@ ShowMainGui() {
         ["F12", "Reload", "Reload Script", ""]
     ]
 
-    y := 10
+    y := 5
     for def in widgetDefs {
         key := def[2]  ; This is the function name (GLoop, BuffLoop, etc.)
         widgetText := def[1] . " - " . def[3]  ; F5 - Press G
         
         ; Create text widgets instead of buttons
-        widget := g_MainGui.Add("Text", "x10 y" . y . " w200 h30 Center Border Background0xFF0000 c0xFFFFFF vwidget" . key, widgetText)
+        widget := g_MainGui.Add("Text", "x10 y" . y . " w200 h20 Center Border Background0xFF0000 c0xFFFFFF vwidget" . key, widgetText)
         g_GuiWidgets[key] := widget
-        y += 40
+        y += 30
     }
 
     UpdateGuiWidgetColors()
@@ -105,5 +107,3 @@ FlashWidget(widgetName) {
         }
     }
 }
-
-^F1::ShowMainGui()
