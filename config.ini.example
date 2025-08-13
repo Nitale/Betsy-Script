@@ -1,3 +1,35 @@
 [Steam]
 SteamInvitelink=steam://joinlobby/<Your-Lobby-Id>
 SandboxiePath=""
+
+# Manage bags for all accounts. You can remove bags if you have less than 8 bags, make sure to respect the order (bag_1, bag_2, etc...)
+[Bags]
+bag_1=keep
+bag_2=sell
+bag_3=sell
+bag_4=sell
+bag_5=sell
+bag_6=sell
+bag_7=sell
+bag_8=keep
+
+# if you prefer to Manage bags differently for each account, uncomment the following sections and edit accordingly
+; [Bags_account_1]
+; bag_1=keep
+; bag_2=sell
+; bag_3=sell
+; bag_4=sell
+; bag_5=sell
+; bag_6=sell
+; bag_7=sell
+; bag_8=keep
+
+; [Bags_account_2]
+; bag_1=keep
+; bag_2=sell
+; bag_3=sell
+; bag_4=sell
+; bag_5=sell
+; bag_6=sell
+; bag_7=sell
+; bag_8=keep
